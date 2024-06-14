@@ -28,7 +28,7 @@ Copiar código
 400 Bad Request: Se o request body for inválido.
 401 Unauthorized: Se o usuário ou senha forem inválidos.
 500 Internal Server Error: Se ocorrer um erro no servidor.
-Criar Usuário
+###Criar Usuário
 Cria um novo usuário.
 
 URL: /api/v1/auth/criar
