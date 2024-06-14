@@ -18,7 +18,7 @@ Realiza o login do usuário e retorna um token JWT.
     "username": "string",
     "password": "string"
   }
-Responses:
+#Responses:
 200 OK: Retorna o token JWT.
 json
 Copiar código
@@ -28,7 +28,7 @@ Copiar código
 400 Bad Request: Se o request body for inválido.
 401 Unauthorized: Se o usuário ou senha forem inválidos.
 500 Internal Server Error: Se ocorrer um erro no servidor.
-###Criar Usuário
+Criar Usuário
 Cria um novo usuário.
 
 URL: /api/v1/auth/criar
@@ -100,12 +100,8 @@ Copiar código
   }
 }
 Serviços Utilizados
-Criptografia de Senha
-Utiliza o serviço ICryptoService para criptografar a senha do usuário antes de salvá-la no banco de dados.
-
-Repositório de Usuário
-Utiliza o repositório IUsuarioRepository para operações de validação e manipulação de dados do usuário.
-
+Criptografia de Senha: Utiliza o serviço ICryptoService para criptografar a senha do usuário antes de salvá-la no banco de dados.
+Repositório de Usuário: Utiliza o repositório IUsuarioRepository para operações de validação e manipulação de dados do usuário.
 Métodos Privados
 GenerateJwtToken
 Gera um token JWT para um usuário autenticado.
@@ -139,29 +135,23 @@ Cria um modelo de usuário a partir de uma entidade de usuário.
 csharp
 Copiar código
 private UsuarioModel CriarModelo(UsuarioEntity entidade) => new(this, entidade);
-
-# API Tarefas
-
-## Descrição
-
+API Tarefas
+Descrição
 API para gerenciamento de tarefas com funcionalidades de criação, atualização, exclusão e consulta de tarefas. A API também permite a exportação de tarefas para CSV e a filtragem por status ou usuário.
 
-## Pré-requisitos
-
+Pré-requisitos
 Antes de executar a API, certifique-se de que você tenha os seguintes softwares instalados em seu ambiente:
 
-- .NET SDK (versão compatível com o projeto)
-- Visual Studio (ou outro editor de sua escolha, como VS Code)
-- Git (para controle de versão e clonagem do repositório)
-- Postman (opcional, para testar a API)
-
-## Como Executar a API Localmente
-
-### Clonar o Repositório
-
+.NET SDK (versão compatível com o projeto)
+Visual Studio (ou outro editor de sua escolha, como VS Code)
+Git (para controle de versão e clonagem do repositório)
+Postman (opcional, para testar a API)
+Como Executar a API Localmente
+Clonar o Repositório
 Clone o repositório do GitHub para o seu ambiente local usando o comando:
 
-```bash
+bash
+Copiar código
 git clone https://github.com/seu-usuario/seu-repositorio.git
 Abrir o Projeto no Visual Studio
 Abra o Visual Studio.
@@ -196,22 +186,22 @@ Uma vez que a API esteja em execução, você pode fazer chamadas aos endpoints 
 Exemplos de Endpoints
 Obter todas as tarefas:
 
-http
+bash
 Copiar código
 GET http://localhost:5000/api/v1/tarefas
 Obter tarefas por status:
 
-http
+bash
 Copiar código
 GET http://localhost:5000/api/v1/tarefas/status?status=em-andamento
 Obter tarefas por usuário:
 
-http
+bash
 Copiar código
 GET http://localhost:5000/api/v1/tarefas/usuario
 Criar uma nova tarefa:
 
-http
+bash
 Copiar código
 POST http://localhost:5000/api/v1/tarefas
 Body (JSON):
@@ -221,7 +211,7 @@ Body (JSON):
 }
 Atualizar uma tarefa:
 
-http
+bash
 Copiar código
 POST http://localhost:5000/api/v1/tarefas/atualizar
 Body (JSON):
@@ -232,7 +222,7 @@ Body (JSON):
 }
 Excluir uma tarefa:
 
-http
+bash
 Copiar código
 DELETE http://localhost:5000/api/v1/tarefas/{id}
 Finalizar a Execução
@@ -244,6 +234,25 @@ Erros e Logs: Os logs são gerados durante a execução para facilitar a identif
 Documentação dos Endpoints
 Obter todas as tarefas
 csharp
+Copiar código
+/// <summary>
+/// Obtem todas as tarefas, podendo exportá-las para CSV conforme parâmetro.
+/// </summary>
+/// <param name="status"></param>
+/// <param name="exportar"></param>    
+/// <param name="retornarTarefaEventHandler"></param>
+/// <param name="cancellationToken"></param>
+/// <returns></returns>
+[HttpGet]
+public async Task<ActionResult> Get(
+     [FromQuery] string? status,
+     [FromQuery] bool? exportar,
+     [FromServices] IRequestHandler<DomainEvent<RetornarTarefaEvent>, List<TarefaEntity
+quando chega em "Responses" o formato muda
+ChatGPT
+Entendi! Vamos continuar ajustando o formato para o README.md mantendo a consistência. Aqui está a continuação:
+
+markdown
 Copiar código
 /// <summary>
 /// Obtem todas as tarefas, podendo exportá-las para CSV conforme parâmetro.
