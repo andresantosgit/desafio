@@ -1,3 +1,145 @@
+# Auth API
+
+## Descrição
+
+API para autenticação e gerenciamento de usuários. Inclui funcionalidades de login, criação de usuário, atualização de senha e exclusão de usuário.
+
+## Endpoints
+
+### Login
+
+Realiza o login do usuário e retorna um token JWT.
+
+- **URL**: `/api/v1/auth/login`
+- **Método HTTP**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "username": "string",
+    "password": "string"
+  }
+Responses:
+200 OK: Retorna o token JWT.
+json
+Copiar código
+{
+  "Token": "string"
+}
+400 Bad Request: Se o request body for inválido.
+401 Unauthorized: Se o usuário ou senha forem inválidos.
+500 Internal Server Error: Se ocorrer um erro no servidor.
+Criar Usuário
+Cria um novo usuário.
+
+URL: /api/v1/auth/criar
+Método HTTP: POST
+Request Body:
+json
+Copiar código
+{
+  "usuario": "string",
+  "email": "string",
+  "senha": "string"
+}
+Responses:
+200 OK: Retorna o modelo do usuário criado.
+json
+Copiar código
+{
+  // Modelo do usuário criado
+}
+204 No Content: Se o usuário for criado com sucesso mas sem conteúdo a retornar.
+400 Bad Request: Se o request body for inválido.
+500 Internal Server Error: Se ocorrer um erro no servidor.
+Atualizar Senha de Usuário
+Atualiza a senha de um usuário existente.
+
+URL: /api/v1/auth/atualizar
+Método HTTP: POST
+Request Body:
+json
+Copiar código
+{
+  "usuario": "string",
+  "senha": "string"
+}
+Responses:
+200 OK: Retorna o modelo do usuário atualizado.
+json
+Copiar código
+{
+  // Modelo do usuário atualizado
+}
+400 Bad Request: Se o request body for inválido.
+500 Internal Server Error: Se ocorrer um erro no servidor.
+Excluir Usuário
+Exclui um usuário existente.
+
+URL: /api/v1/auth/{id}
+Método HTTP: DELETE
+Request Param: id - ID do usuário a ser excluído.
+Responses:
+200 OK: Se o usuário for excluído com sucesso.
+json
+Copiar código
+{
+  // Modelo do usuário excluído
+}
+400 Bad Request: Se o request for inválido.
+500 Internal Server Error: Se ocorrer um erro no servidor.
+Configuração
+Certifique-se de configurar as seguintes variáveis no arquivo appsettings.json:
+
+json
+Copiar código
+{
+  "Jwt": {
+    "Key": "sua-chave-secreta",
+    "Issuer": "seu-emissor",
+    "Audience": "sua-audiencia"
+  }
+}
+Serviços Utilizados
+Criptografia de Senha
+Utiliza o serviço ICryptoService para criptografar a senha do usuário antes de salvá-la no banco de dados.
+
+Repositório de Usuário
+Utiliza o repositório IUsuarioRepository para operações de validação e manipulação de dados do usuário.
+
+Métodos Privados
+GenerateJwtToken
+Gera um token JWT para um usuário autenticado.
+
+csharp
+Copiar código
+private string GenerateJwtToken(string username)
+{
+    var claims = new[]
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, username),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.Name, username)
+    };
+
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+    var token = new JwtSecurityToken(
+        issuer: _configuration["Jwt:Issuer"],
+        audience: _configuration["Jwt:Audience"],
+        claims: claims,
+        expires: DateTime.Now.AddMinutes(30),
+        signingCredentials: creds);
+
+    return new JwtSecurityTokenHandler().WriteToken(token);
+}
+CriarModelo
+Cria um modelo de usuário a partir de uma entidade de usuário.
+
+csharp
+Copiar código
+private UsuarioModel CriarModelo(UsuarioEntity entidade) => new(this, entidade);
+
 # API Tarefas
 
 ## Descrição
